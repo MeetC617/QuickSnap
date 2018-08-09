@@ -30,10 +30,16 @@ namespace CardGames
                 if (SwinGame.KeyTyped (KeyCode.vk_LSHIFT) &&
                 SwinGame.KeyTyped (KeyCode.vk_RSHIFT)) {
                     //TODO: add sound effects
+                    SwinGame.LoadSoundEffectNamed ("Crowd", "crowd-groan.wav");
+                    SwinGame.PlaySoundEffect ("Crowd");
                 } else if (SwinGame.KeyTyped (KeyCode.vk_LSHIFT)) {
                     myGame.PlayerHit (0);
+                    SwinGame.LoadSoundEffectNamed ("Punch", "punch2.wav");
+                    SwinGame.PlaySoundEffect ("Punch");
                 } else if (SwinGame.KeyTyped (KeyCode.vk_RSHIFT)) {
                     myGame.PlayerHit (1);
+                    SwinGame.LoadSoundEffectNamed ("Slap", "slap.wav");
+                    SwinGame.PlaySoundEffect ("Slap");
                 }
             }
         }
