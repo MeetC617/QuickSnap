@@ -31,19 +31,20 @@ namespace CardGames.GameLogic
 
 		private bool _started = false;
 
-		/// <summary>
-		/// Create a new game of Snap!
-		/// </summary>
-		public Snap ()
-		{
-			_deck = new Deck ();
-		}
+        /// <summary>
+        /// Create a new game of Snap!
+        /// </summary>
+        public Snap()
+        {
+            _deck = new Deck();
+            _gameTimer = SwinGame.CreateTimer();
+        }
 
-		/// <summary>
-		/// Gets the card on the top of the "flip" stack. This card will be face up.
-		/// </summary>
-		/// <value>The top card.</value>
-		public Card TopCard
+        /// <summary>
+        /// Gets the card on the top of the "flip" stack. This card will be face up.
+        /// </summary>
+        /// <value>The top card.</value>
+        public Card TopCard
 		{
 			get
 			{
@@ -81,21 +82,21 @@ namespace CardGames.GameLogic
 			get { return _started; }
 		}
 
-		/// <summary>
-		/// Start the Snap game playing!
-		/// </summary>
-		public void Start()
-		{
-			if ( ! IsStarted )			// only start if not already started!
-			{
-				_started = true;
-				_deck.Shuffle ();		// Return the cards and shuffle
+        /// <summary>
+        /// Start the Snap game playing!
+        /// </summary>
+        public void Start()
+        {
+            if (!IsStarted) // only start …
+            {
+                _started = true;
+                _deck.Shuffle(); // Return …
+                FlipNextCard(); // Flip …
+                _gameTimer.Start();
+            }
+        }
 
-				FlipNextCard ();		// Flip the first card...
-			}
-		}
-			
-		public void FlipNextCard()
+        public void FlipNextCard()
 		{
 			if (_deck.CardsRemaining > 0)			// have cards...
 			{
@@ -105,20 +106,24 @@ namespace CardGames.GameLogic
 			}
 		}
 
-		/// <summary>
-		/// Update the game. This should be called in the Game loop to enable
-		/// the game to update its internal state.
-		/// </summary>
-		public void Update()
-		{
-			//TODO: implement update to automatically slip cards!
-		}
+        /// <summary>
+        /// Update the game. This should be called in the Game loop to enable
+        /// the game to update its internal state.
+        /// </summary>
+        public void Update()
+        {
+            if (_gameTimer.Ticks > _flipTime)
+            {
+                _gameTimer.Reset();
+                FlipNextCard();
+            }
+        }
 
-		/// <summary>
-		/// Gets the player's score.
-		/// </summary>
-		/// <value>The score.</value>
-		public int Score(int idx)
+        /// <summary>
+        /// Gets the player's score.
+        /// </summary>
+        /// <value>The score.</value>
+        public int Score(int idx)
 		{
 			if ( idx >= 0 && idx < _score.Length )
 				return _score[idx]; 
@@ -147,7 +152,8 @@ namespace CardGames.GameLogic
 
 			// stop the game...
 			_started = false;
-		}
+            _gameTimer.Stop();
+        }
 	
 		#region Snap Game Unit Tests
 		#if DEBUG

@@ -14,42 +14,26 @@ namespace CardGames
             SwinGame.LoadFontNamed("GameFont", "Chunkfive.otf", 12);
         }
 
-		/// <summary>
-		/// Respond to the user input -- with requests affecting myGame
-		/// </summary>
-		/// <param name="myGame">The game object to update in response to events.</param>
-		private static void HandleUserInput(Snap myGame)
-		{
-			//Fetch the next batch of UI interaction
-			SwinGame.ProcessEvents();
+        /// <summary>
+        /// Respond to the user input -- with requests affecting myGame
+        /// </summary>
+        /// <param name="myGame">The game object to update in response to events.</param>
+        private static void HandleUserInput(Snap myGame)
+        {
+            //Fetch the next batch of UI interaction
+            SwinGame.ProcessEvents();
 
-			if (SwinGame.KeyTyped (KeyCode.vk_SPACE))
-			{
-				myGame.FlipNextCard ();
-			}
-            if (myGame.IsStarted) {
-                if (SwinGame.KeyTyped (KeyCode.vk_LSHIFT) &&
-                SwinGame.KeyTyped (KeyCode.vk_RSHIFT)) {
-                    //TODO: add sound effects
-                    SwinGame.LoadSoundEffectNamed ("Crowd", "crowd-groan.wav");
-                    SwinGame.PlaySoundEffect ("Crowd");
-                } else if (SwinGame.KeyTyped (KeyCode.vk_LSHIFT)) {
-                    myGame.PlayerHit (0);
-                    SwinGame.LoadSoundEffectNamed ("Punch", "punch2.wav");
-                    SwinGame.PlaySoundEffect ("Punch");
-                } else if (SwinGame.KeyTyped (KeyCode.vk_RSHIFT)) {
-                    myGame.PlayerHit (1);
-                    SwinGame.LoadSoundEffectNamed ("Slap", "slap.wav");
-                    SwinGame.PlaySoundEffect ("Slap");
-                }
+        if (SwinGame.KeyTyped(KeyCode.vk_SPACE))
+            {
+                myGame.Start();
             }
         }
 
-		/// <summary>
-		/// Draws the game to the Window.
-		/// </summary>
-		/// <param name="myGame">The details of the game -- mostly top card and scores.</param>
-		private static void DrawGame(Snap myGame)
+        /// <summary>
+        /// Draws the game to the Window.
+        /// </summary>
+        /// <param name="myGame">The details of the game -- mostly top card and scores.</param>
+        private static void DrawGame(Snap myGame)
 		{
 			SwinGame.ClearScreen(Color.White);
 
